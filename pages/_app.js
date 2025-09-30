@@ -1,49 +1,52 @@
 import "../styles/globals.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
   const [active, setActive] = useState(false);
   const toggleActive = () => setActive(!active);
 
+  // Load Google Nastaliq Urdu font dynamically
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.href = "https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+  }, []);
+
   return (
     <div>
-      {/* Professional Stylish Header */}
+      {/* Stylish Header */}
       <header
         onClick={toggleActive}
         style={{
           background: active
-            ? "linear-gradient(135deg, #f8d6b0, #ffeedd)"
-            : "linear-gradient(135deg, #f5e0c3, #f7f0e9)",
-          padding: "25px 20px",
+            ? "linear-gradient(135deg, #fceabb, #f8b500)"
+            : "linear-gradient(135deg, #f6e8c3, #f7d68a)",
+          padding: "30px 15px",
           textAlign: "center",
-          fontSize: "32px",
+          fontSize: "36px",
           fontWeight: "700",
           color: active ? "#b35f00" : "#2a2a2a",
           fontFamily: "'Noto Nastaliq Urdu', serif",
-          letterSpacing: "1px",
-          textTransform: "capitalize",
-          boxShadow: active
-            ? "0 12px 25px rgba(0,0,0,0.25)"
-            : "0 6px 12px rgba(0,0,0,0.15)",
-          borderBottom: "2px solid #e0d5c4",
-          borderRadius: "0 0 20px 20px",
+          letterSpacing: "1.2px",
+          textShadow: "2px 2px 4px rgba(0,0,0,0.25)",
+          boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
+          borderRadius: "0 0 25px 25px",
           transition: "all 0.5s ease-in-out",
           cursor: "pointer",
-          userSelect: "none",
           position: "relative",
-          textShadow: "1px 1px 2px rgba(0,0,0,0.2)"
+          userSelect: "none"
         }}
       >
         فری دینی اردو کتابیں | Free Urdu Deeni Books
-        {/* Underline animation */}
         <span
           style={{
             position: "absolute",
             bottom: "5px",
             left: "50%",
             transform: "translateX(-50%)",
-            width: active ? "85%" : "0%",
-            height: "4px",
+            width: active ? "90%" : "0%",
+            height: "5px",
             backgroundColor: "#b35f00",
             borderRadius: "2px",
             transition: "width 0.4s ease-in-out"
