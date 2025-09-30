@@ -8,38 +8,37 @@ export default function Book() {
   if (!id) return null;
 
   const book = booksData.find(b => b.id === parseInt(id));
+
   if (!book) return <p>Book not found</p>;
 
   return (
     <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-      <h1 style={{ fontFamily: "'AlQalam Ishtiaq', serif", fontSize: "28px", marginBottom: "20px" }}>
-        {book.title}
-      </h1>
-
-      <div style={{ marginBottom: "20px" }}>
-        <a
-          href={book.file}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ marginRight: "20px", color: "green", textDecoration: "underline", fontSize: "18px" }}
+      <h1 style={{ fontFamily: "AlQalamIshtiaq, serif", fontSize: "28px" }}>{book.title}</h1>
+      
+      <div style={{ margin: "20px 0" }}>
+        <a 
+          href={book.file} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          style={{ marginRight: "15px", color: "green", textDecoration: "underline" }}
         >
           📖 Read Online
         </a>
-        <a
-          href={book.file}
-          download
-          style={{ color: "orange", textDecoration: "underline", fontSize: "18px" }}
+        <a 
+          href={book.file} 
+          download 
+          style={{ color: "blue", textDecoration: "underline" }}
         >
           ⬇ Download
         </a>
       </div>
 
-      <iframe
-        src={book.file}
-        width="100%"
-        height="600px"
+      <iframe 
+        src={book.file} 
+        width="100%" 
+        height="600px" 
         style={{ border: "1px solid #ccc" }}
-      ></iframe>
+      />
     </div>
   );
 }
