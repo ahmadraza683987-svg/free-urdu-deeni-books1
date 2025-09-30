@@ -1,117 +1,135 @@
 import { useState } from "react";
 import booksData from "../data/books.json";
 
+const categories = [
+  {
+    name: "Darsi Kitaben (درسی کتابیں)",
+    subcategories: ["Kitaben (کتابیں)", "Shuruhaat (شروحات)"]
+  },
+  {
+    name: "Ghair Darsi Kitaben (غیر درسی کتابیں)",
+    subcategories: []
+  }
+];
+
 export default function Books() {
   const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
 
-  const categories = [
-    {
-      name: "Darsi Kitaben (درسی کتابیں)",
-      subcategories: ["Kitaben (کتابیں)", "Shuruhaat (شروحات)"]
-    },
-    {
-      name: "Ghair Darsi Kitaben (غیر درسی کتابیں)",
-      subcategories: []
-    }
-  ];
-
-  const handleCategoryClick = (cat) => {
-    setSelectedCategory(cat);
-    setSelectedSubcategory(null);
-  };
-
-  const handleSubcategoryClick = (sub) => {
-    setSelectedSubcategory(sub);
-  };
-
-  // Filter books by search or selected category/subcategory
+  // Filter books based on search & selected subcategory
   const filteredBooks = booksData.filter(
     (book) =>
-      book.title.toLowerCase().includes(search.toLowerCase()) ||
-      book.category.toLowerCase().includes(search.toLowerCase()) ||
-      book.subcategory.toLowerCase().includes(search.toLowerCase()) ||
-      (selectedCategory && book.category === selectedCategory) ||
-      (selectedSubcategory && book.subcategory === selectedSubcategory)
+      book.title.toLowerCase().includes(search.toLowerCase()) &&
+      (selectedSubcategory ? book.subcategory === selectedSubcategory : true)
   );
 
   return (
     <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-      <h1>📚 Categories</h1>
+      <h1
+        style={{
+          textAlign: "center",
+          fontSize: "32px",
+          marginBottom: "20px",
+          fontFamily: "'AlQalam Ishtiaq', serif"
+        }}
+      >
+        📚 کیٹیگریز | Categories
+      </h1>
 
+      {/* Search Box */}
       <input
         type="text"
-        placeholder="🔍 سرچ کریں..."
+        placeholder="🔍 سرچ کریں / Search..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         style={{
-          padding: "8px",
-          marginBottom: "20px",
+          padding: "10px",
           width: "100%",
           maxWidth: "400px",
           borderRadius: "5px",
-          border: "1px solid #ccc"
+          border: "1px solid #ccc",
+          marginBottom: "25px",
+          fontSize: "16px"
         }}
       />
 
-      {!selectedCategory &&
-        categories.map((cat) => (
-          <div
-            key={cat.name}
-            onClick={() => handleCategoryClick(cat.name)}
+      {/* Categories */}
+      {categories.map((cat) => (
+        <div key={cat.name} style={{ marginBottom: "30px" }}>
+          <h2
             style={{
-              marginBottom: "15px",
-              cursor: "pointer",
-              color: "blue",
-              textDecoration: "underline"
+              fontSize: "24px",
+              color: "#444",
+              fontFamily: "'AlQalam Ishtiaq', serif"
             }}
           >
             📂 {cat.name}
-          </div>
-        ))}
+          </h2>
 
-      {selectedCategory &&
-        categories
-          .find((c) => c.name === selectedCategory)
-          .subcategories.map((sub) => (
-            <div
-              key={sub}
-              onClick={() => handleSubcategoryClick(sub)}
-              style={{
-                marginLeft: "20px",
-                marginBottom: "10px",
-                cursor: "pointer",
-                color: "green",
-                textDecoration: "underline"
-              }}
-            >
-              ➡ {sub}
-            </div>
-          ))}
+          {cat.subcategories.map((sub) => {
+            const booksInSub = booksData.filter(
+              (b) => b.category === cat.name && b.subcategory === sub
+            );
 
-      {(selectedSubcategory || search) && (
-        <div style={{ marginTop: "20px" }}>
-          <h2>📖 Books</h2>
-          {filteredBooks.length > 0 ? (
-            <ul>
-              {filteredBooks.map((b) => (
-                <li key={b.title}>
-                  <a
-                    href={b.file}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ color: "blue", textDecoration: "underline" }}
-                  >
-                    {b.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p style={{ color: "red" }}>❌ کوئی کتاب موجود نہیں</p>
-          )}
+            return (
+              <div key={sub} style={{ marginLeft: "20px", marginBottom: "15px" }}>
+                {/* Subcategory name */}
+                <h3
+                  onClick={() =>
+                    setSelectedSubcategory(selectedSubcategory === sub ? null : sub)
+                  }
+                  style={{
+                    cursor: "pointer",
+                    color: "#0055aa",
+                    transition: "color 0.3s",
+                    fontSize: "20px",
+                    fontFamily: "'AlQalam Ishtiaq', serif"
+                  }}
+                >
+                  ➡ {sub} {selectedSubcategory === sub ? "(Showing)" : ""}
+                </h3>
+
+                {/* Show books only if selected */}
+                {selectedSubcategory === sub && (
+                  <>
+                    {booksInSub.length > 0 ? (
+                      <ul style={{ marginTop: "10px", fontFamily: "sans-serif" }}>
+                        {booksInSub.map((b) => (
+                          <li key={b.title} style={{ marginBottom: "8px" }}>
+                            <a
+                              href={b.file}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                color: "#0077cc",
+                                textDecoration: "underline",
+                                fontSize: "18px",
+                                fontFamily: "sans-serif"
+                              }}
+                            >
+                              {b.title}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p style={{ color: "gray", fontStyle: "italic" }}>
+                        کوئی کتاب موجود نہیں | No books available
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
+            );
+          })}
         </div>
+      ))}
+
+      {/* Search no result */}
+      {filteredBooks.length === 0 && search && (
+        <p style={{ color: "red", textAlign: "center", marginTop: "20px" }}>
+          ❌ کوئی رزلٹ نہیں ملا | No results found
+        </p>
       )}
     </div>
   );
