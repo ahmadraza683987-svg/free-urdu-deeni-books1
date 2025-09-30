@@ -1,7 +1,6 @@
-// pages/books.js
 import { useState } from "react";
+import booksData from "../data/books.json";
 
-// Temporary categories
 const categories = [
   {
     name: "Darsi Kitaben (درسی کتابیں)",
@@ -15,21 +14,17 @@ const categories = [
 
 export default function Books() {
   const [search, setSearch] = useState("");
-
-  // Filter categories based on search
-  const filtered = categories.filter(
-    (cat) =>
-      cat.name.toLowerCase().includes(search.toLowerCase()) ||
-      cat.subcategories.some((sub) =>
-        sub.toLowerCase().includes(search.toLowerCase())
-      )
+  const filteredBooks = booksData.filter(
+    (book) =>
+      book.title.toLowerCase().includes(search.toLowerCase()) ||
+      book.category.toLowerCase().includes(search.toLowerCase()) ||
+      book.subcategory.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
       <h1>📚 کیٹیگریز</h1>
 
-      {/* Search Box */}
       <input
         type="text"
         placeholder="🔍 سرچ کریں..."
@@ -45,23 +40,43 @@ export default function Books() {
         }}
       />
 
-      {/* Show Filtered Categories */}
-      {filtered.map((cat) => (
+      {categories.map((cat) => (
         <div key={cat.name} style={{ marginBottom: "30px" }}>
           <h2>📂 {cat.name}</h2>
-          {cat.subcategories.length > 0 ? (
-            <ul>
-              {cat.subcategories.map((sub) => (
-                <li key={sub}>➡ {sub}</li>
-              ))}
-            </ul>
-          ) : (
-            <p style={{ color: "gray" }}>کوئی سب کیٹیگری موجود نہیں</p>
-          )}
+
+          {cat.subcategories.map((sub) => {
+            const booksInSub = filteredBooks.filter(
+              (b) => b.category === cat.name && b.subcategory === sub
+            );
+
+            return (
+              <div key={sub} style={{ marginLeft: "20px", marginBottom: "15px" }}>
+                <h3>➡ {sub}</h3>
+                {booksInSub.length > 0 ? (
+                  <ul>
+                    {booksInSub.map((b) => (
+                      <li key={b.title}>
+                        <a
+                          href={b.file}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: "blue", textDecoration: "underline" }}
+                        >
+                          {b.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p style={{ color: "gray" }}>کوئی کتاب موجود نہیں</p>
+                )}
+              </div>
+            );
+          })}
         </div>
       ))}
 
-      {filtered.length === 0 && (
+      {filteredBooks.length === 0 && search && (
         <p style={{ color: "red" }}>❌ کوئی رزلٹ نہیں ملا</p>
       )}
     </div>
