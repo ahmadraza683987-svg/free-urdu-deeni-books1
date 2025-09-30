@@ -17,14 +17,14 @@
     "id": 3,
     "title": "Islamic History-اسلامی تاریخ.pdf",
     "category": "Ghair Darsi Kitaben (غیر درسی کتابیں)",
-    "subcategory": "General",
+    "subcategory": "",
     "file": "/books/Islamic-History.pdf"
   },
   {
     "id": 4,
     "title": "Quran Tafseer-تفسیر قرآن.pdf",
     "category": "Ghair Darsi Kitaben (غیر درسی کتابیں)",
-    "subcategory": "Tafseer",
+    "subcategory": "",
     "file": "/books/Quran-Tafseer.pdf"
   }
 ]
