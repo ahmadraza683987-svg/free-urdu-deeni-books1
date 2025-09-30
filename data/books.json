@@ -12,5 +12,19 @@
     "category": "Darsi Kitaben (درسی کتابیں)",
     "subcategory": "Shuruhaat (شروحات)",
     "file": "/books/Shuruhaat-Example.pdf"
+  },
+  {
+    "id": 3,
+    "title": "Islamic History-اسلامی تاریخ.pdf",
+    "category": "Ghair Darsi Kitaben (غیر درسی کتابیں)",
+    "subcategory": "General",
+    "file": "/books/Islamic-History.pdf"
+  },
+  {
+    "id": 4,
+    "title": "Quran Tafseer-تفسیر قرآن.pdf",
+    "category": "Ghair Darsi Kitaben (غیر درسی کتابیں)",
+    "subcategory": "Tafseer",
+    "file": "/books/Quran-Tafseer.pdf"
   }
 ]
