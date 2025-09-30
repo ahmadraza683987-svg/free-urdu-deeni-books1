@@ -1,34 +1,37 @@
-import { useState } from 'react';
-import Link from 'next/link';
-import booksData from '../data/books.json';
+// pages/books.js
+
+// Temporary categories (books add karne se pehle ka structure)
+const categories = [
+  {
+    name: "Darsi Kitaben (درسی کتابیں)",
+    subcategories: ["Kitaben (کتابیں)", "Shuruhaat (شروحات)"]
+  },
+  {
+    name: "Ghair Darsi Kitaben (غیر درسی کتابیں)",
+    subcategories: []
+  }
+];
 
 export default function Books() {
-  const [search, setSearch] = useState('');
-
-  const filteredBooks = booksData.filter(
-    book =>
-      book.title.toLowerCase().includes(search.toLowerCase()) ||
-      book.author.toLowerCase().includes(search.toLowerCase())
-  );
-
   return (
-    <div className="container">
-      <h1>کتابیں</h1>
-      <input
-        type="text"
-        placeholder="کتاب یا مصنف تلاش کریں"
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-      />
-      <ul>
-        {filteredBooks.map(book => (
-          <li key={book.id}>
-            <Link href={`/books/${book.id}`}>
-              {book.title} - {book.author}
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
+      <h1>📚 کیٹیگریز</h1>
+
+      {categories.map((cat) => (
+        <div key={cat.name} style={{ marginBottom: "30px" }}>
+          <h2>📂 {cat.name}</h2>
+
+          {cat.subcategories.length > 0 ? (
+            <ul>
+              {cat.subcategories.map((sub) => (
+                <li key={sub}>➡ {sub}</li>
+              ))}
+            </ul>
+          ) : (
+            <p style={{ color: "gray" }}>کوئی سب کیٹیگری موجود نہیں</p>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
