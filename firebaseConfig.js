@@ -1,5 +1,6 @@
 // firebaseConfig.js
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore"; // 🔹 Firestore import for comments
 
 const firebaseConfig = {
   apiKey: "AIzaSyCDvXaKGUjYwc2Ly4PBBoKJVobdulVs8js",
@@ -11,4 +12,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
+// 🔹 Initialize Firestore
+export const db = getFirestore(app);
+
 export default app;
