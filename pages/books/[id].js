@@ -11,27 +11,24 @@ export default function Book() {
   if (!book) return <p>کتاب موجود نہیں</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1 style={{ fontFamily: "'Alqalam Ishtiaq', serif" }}>{book.title}</h1>
+    <div style={{ padding: "20px", fontFamily: "'Alqalam Ishtiaq', serif" }}>
+      <h1>{book.title}</h1>
       <p>مصنف: {book.author}</p>
+      <p>کیٹیگری: {book.category}</p>
+      {book.subcategory && <p>ذیلی کیٹیگری: {book.subcategory}</p>}
 
-      {/* Front page image */}
+      {/* Front Page Image */}
       {book.frontPage && (
         <div style={{ margin: "20px 0" }}>
           <img
             src={book.frontPage}
-            alt={book.title}
-            style={{
-              width: "100%",
-              maxWidth: "400px",
-              borderRadius: "10px",
-              boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
-            }}
+            alt={`${book.title} Front Page`}
+            style={{ maxWidth: "100%", borderRadius: "10px" }}
           />
         </div>
       )}
 
-      {/* Buttons */}
+      {/* Read and Download Buttons */}
       <div style={{ marginTop: "20px" }}>
         <a
           href={book.file}
