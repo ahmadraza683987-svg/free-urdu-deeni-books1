@@ -1,5 +1,6 @@
 import Link from "next/link";
-import Contact from "../components/Contact"; // 🔹 Contact component import
+import Contact from "../components/Contact";  // Contact Component
+import Comments from "../components/Comments"; // 🔹 New Comments Component
 
 export default function Home() {
   return (
@@ -55,7 +56,10 @@ export default function Home() {
         </Link>
       </section>
 
-      {/* 🔹 Contact Section at the bottom */}
+      {/* 🔹 Comments Section */}
+      <Comments />
+
+      {/* 🔹 Contact Section */}
       <Contact />
     </div>
   );
