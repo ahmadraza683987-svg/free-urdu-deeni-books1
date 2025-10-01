@@ -15,8 +15,24 @@ export default function Book() {
       <h1 style={{ fontFamily: "'Alqalam Ishtiaq', serif" }}>{book.title}</h1>
       <p>مصنف: {book.author}</p>
 
+      {/* Front page image */}
+      {book.frontPage && (
+        <div style={{ margin: "20px 0" }}>
+          <img
+            src={book.frontPage}
+            alt={book.title}
+            style={{
+              width: "100%",
+              maxWidth: "400px",
+              borderRadius: "10px",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
+            }}
+          />
+        </div>
+      )}
+
+      {/* Buttons */}
       <div style={{ marginTop: "20px" }}>
-        {/* Read button */}
         <a
           href={book.file}
           target="_blank"
@@ -34,7 +50,6 @@ export default function Book() {
           📖 Read
         </a>
 
-        {/* Download button */}
         <a
           href={book.file}
           download
