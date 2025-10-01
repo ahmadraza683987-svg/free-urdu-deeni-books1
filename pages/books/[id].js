@@ -10,26 +10,36 @@ export default function Book() {
   const book = booksData.find((b) => b.id === id);
   if (!book) return <p>کتاب موجود نہیں</p>;
 
+  // Front page image ka path (JPG ke liye)
+  const frontPageImage = book.file.replace(".pdf", ".jpg");
+
   return (
-    <div style={{ padding: "20px", fontFamily: "'Alqalam Ishtiaq', serif" }}>
-      <h1>{book.title}</h1>
+    <div style={{ padding: "20px" }}>
+      <h1 style={{ fontFamily: "'Alqalam Ishtiaq', serif" }}>{book.title}</h1>
       <p>مصنف: {book.author}</p>
-      <p>کیٹیگری: {book.category}</p>
-      {book.subcategory && <p>ذیلی کیٹیگری: {book.subcategory}</p>}
 
-      {/* Front Page Image */}
-      {book.frontPage && (
-        <div style={{ margin: "20px 0" }}>
-          <img
-            src={book.frontPage}
-            alt={`${book.title} Front Page`}
-            style={{ maxWidth: "100%", borderRadius: "10px" }}
-          />
-        </div>
-      )}
+      {/* Book front page */}
+      <div style={{ margin: "20px 0" }}>
+        <img
+          src={frontPageImage}
+          alt={`${book.title} front page`}
+          style={{
+            maxWidth: "100%",
+            height: "auto",
+            border: "1px solid #ccc",
+            borderRadius: "10px",
+            boxShadow: "0px 4px 8px rgba(0,0,0,0.2)"
+          }}
+          onError={(e) => {
+            // agar image available nahi hai to default msg show hoga
+            e.target.style.display = "none";
+          }}
+        />
+      </div>
 
-      {/* Read and Download Buttons */}
+      {/* Buttons */}
       <div style={{ marginTop: "20px" }}>
+        {/* Read button */}
         <a
           href={book.file}
           target="_blank"
@@ -44,9 +54,10 @@ export default function Book() {
             fontWeight: "bold"
           }}
         >
-          📖 Read
+          📖 Read Online
         </a>
 
+        {/* Download button */}
         <a
           href={book.file}
           download
