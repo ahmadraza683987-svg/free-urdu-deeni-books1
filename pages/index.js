@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Contact from "../components/Contact"; // 🔹 Contact component import
 
 export default function Home() {
   return (
@@ -53,6 +54,9 @@ export default function Home() {
           </div>
         </Link>
       </section>
+
+      {/* 🔹 Contact Section at the bottom */}
+      <Contact />
     </div>
   );
 }
