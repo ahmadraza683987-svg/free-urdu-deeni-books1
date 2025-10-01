@@ -13,7 +13,7 @@ export default function Book() {
   return (
     <div style={{ padding: "20px" }}>
       <h1 style={{ fontFamily: "'Alqalam Ishtiaq', serif" }}>{book.title}</h1>
-      <p>مصنف: {book.author}</p>
+      <p>مصنف: {book.author}</p
 
       {/* Front page image */}
       {book.frontPage && (
