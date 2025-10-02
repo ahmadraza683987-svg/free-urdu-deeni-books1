@@ -1,66 +1,57 @@
+// /components/Contact.js
 import { useState, useEffect } from "react";
-import { db } from "../firebaseConfig"; // 🔹 Firebase Config
-import {
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-  updateDoc,
-  serverTimestamp
-} from "firebase/firestore";
+import { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 export default function Contact() {
-  const [comment, setComment] = useState("");
-  const [commentsList, setCommentsList] = useState([]);
-  const [editingId, setEditingId] = useState(null);
+  const [commentText, setCommentText] = useState("");
+  const [comments, setComments] = useState([]);
 
-  const fetchComments = async () => {
-    const querySnapshot = await getDocs(collection(db, "comments"));
-    const commentsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setCommentsList(commentsData);
-  };
-
+  // 🔹 Fetch comments from Firestore
   useEffect(() => {
-    fetchComments();
+    const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetchedComments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setComments(fetchedComments);
+    });
+
+    return () => unsubscribe();
   }, []);
 
+  // 🔹 Submit new comment
   const handleSubmit = async () => {
-    if (!comment) return;
-    if (editingId) {
-      // 🔹 Update comment
-      const commentRef = doc(db, "comments", editingId);
-      await updateDoc(commentRef, { text: comment, timestamp: serverTimestamp() });
-      setEditingId(null);
-    } else {
-      // 🔹 Add new comment
-      await addDoc(collection(db, "comments"), { text: comment, timestamp: serverTimestamp() });
+    if (commentText.trim() === "") return;
+    try {
+      await addDoc(collection(db, "comments"), {
+        text: commentText,
+        timestamp: serverTimestamp()
+      });
+      setCommentText("");
+    } catch (err) {
+      console.error("Error adding comment: ", err);
     }
-    setComment("");
-    fetchComments();
   };
 
-  const handleEdit = (c) => {
-    setComment(c.text);
-    setEditingId(c.id);
-  };
-
+  // 🔹 Delete comment
   const handleDelete = async (id) => {
-    await deleteDoc(doc(db, "comments", id));
-    fetchComments();
+    try {
+      await db.collection("comments").doc(id).delete();
+    } catch (err) {
+      console.error("Error deleting comment: ", err);
+    }
   };
 
   return (
     <div style={{ marginTop: "40px", padding: "20px", borderTop: "1px solid #ccc" }}>
       <h2>💬 اپنی رائے دیں / Contact</h2>
 
+      {/* Comment Box */}
       <textarea
         placeholder="اپنی رائے یہاں لکھیں..."
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
         style={{ width: "100%", padding: "10px", borderRadius: "5px", marginTop: "10px" }}
+        value={commentText}
+        onChange={(e) => setCommentText(e.target.value)}
       />
-
       <button
         style={{
           marginTop: "10px",
@@ -73,8 +64,27 @@ export default function Contact() {
         }}
         onClick={handleSubmit}
       >
-        {editingId ? "Update Comment" : "Submit"}
+        Submit
       </button>
+
+      {/* Display Comments */}
+      <div style={{ marginTop: "20px" }}>
+        {comments.length > 0 ? (
+          comments.map(c => (
+            <div key={c.id} style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
+              <p>{c.text}</p>
+              <button
+                onClick={() => handleDelete(c.id)}
+                style={{ color: "red", fontSize: "12px", border: "none", background: "none", cursor: "pointer" }}
+              >
+                Delete
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>کوئی رائے نہیں ہے</p>
+        )}
+      </div>
 
       {/* Email Contact */}
       <p style={{ marginTop: "15px" }}>
@@ -83,20 +93,6 @@ export default function Contact() {
           ahmadraza683987@gmail.com
         </a>
       </p>
-
-      {/* Comments List */}
-      <div style={{ marginTop: "20px" }}>
-        {commentsList.map((c) => (
-          <div key={c.id} style={{ borderBottom: "1px solid #ddd", padding: "8px 0" }}>
-            <p>{c.text}</p>
-            <small>{c.timestamp?.toDate ? c.timestamp.toDate().toLocaleString() : ""}</small>
-            <div>
-              <button onClick={() => handleEdit(c)} style={{ marginRight: "10px" }}>✏️ Edit</button>
-              <button onClick={() => handleDelete(c.id)}>🗑️ Delete</button>
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
