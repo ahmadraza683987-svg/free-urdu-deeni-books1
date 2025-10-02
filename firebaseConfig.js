@@ -1,19 +1,26 @@
 // firebaseConfig.js
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore"; // 🔹 Firestore import for comments
+import { getFirestore } from "firebase/firestore";  
+import { getAnalytics } from "firebase/analytics";
 
+// 🔹 Firebase configuration (console se copy kiya hua)
 const firebaseConfig = {
-  apiKey: "AIzaSyCDvXaKGUjYwc2Ly4PBBoKJVobdulVs8js",
-  authDomain: "free-urdu-deeni-books-comments.firebaseapp.com",
-  projectId: "free-urdu-deeni-books-comments",
-  storageBucket: "free-urdu-deeni-books-comments.appspot.com",
-  messagingSenderId: "364160557039",
-  appId: "1:364160557039:web:583ab4296a72a4eeb2a01a"
+  apiKey: "AIzaSyDjlm2jzzybvYHraj5mlYbsLQ-ddHj_1hA",
+  authDomain: "free-urdu-deeni-books-co-4f312.firebaseapp.com",
+  projectId: "free-urdu-deeni-books-co-4f312",
+  storageBucket: "free-urdu-deeni-books-co-4f312.firebasestorage.app",
+  messagingSenderId: "860499663463",
+  appId: "1:860499663463:web:c24d5acf83f4c24b9992c2",
+  measurementId: "G-WBFHGZ3XPM"
 };
 
+// 🔹 Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// 🔹 Initialize Firestore
+// 🔹 Analytics (optional)
+const analytics = getAnalytics(app);
+
+// 🔹 Firestore Database (for comments)
 export const db = getFirestore(app);
 
 export default app;
