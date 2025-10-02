@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Contact from "../components/Contact";  // Contact Component
-import Comments from "../components/Comments"; // 🔹 New Comments Component
+import Contact from "../components/Contact";   // Contact Component
+import Comments from "../components/Comments"; // Comments Component
 
 export default function Home() {
   return (
@@ -57,10 +57,16 @@ export default function Home() {
       </section>
 
       {/* 🔹 Comments Section */}
-      <Comments />
+      <section className="max-w-4xl mx-auto px-6 pb-16">
+        <h2 className="text-2xl font-bold text-green-800 mb-6 text-center">💬 تبصرے / Comments</h2>
+        <Comments />
+      </section>
 
       {/* 🔹 Contact Section */}
-      <Contact />
+      <section className="max-w-4xl mx-auto px-6 pb-16">
+        <h2 className="text-2xl font-bold text-green-800 mb-6 text-center">📩 رابطہ / Contact</h2>
+        <Contact />
+      </section>
     </div>
   );
 }
