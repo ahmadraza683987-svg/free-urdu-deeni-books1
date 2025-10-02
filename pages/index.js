@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Contact from "../components/Contact";  // Contact Component
-import Comments from "../components/Comments"; // 🔹 New Comments Component
+import Comments from "../components/Comments"; // Comments Component
 
 export default function Home() {
   return (
