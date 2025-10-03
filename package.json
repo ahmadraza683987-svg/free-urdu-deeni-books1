@@ -9,6 +9,7 @@
   "dependencies": {
     "next": "latest",
     "react": "latest",
+    "firebase": "latest",
     "firebase": "^10.1.0"
   }
 }
